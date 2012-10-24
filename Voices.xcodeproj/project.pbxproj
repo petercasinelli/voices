@@ -18,6 +18,12 @@
 		D8E18AE6162894D800BB2BFF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8E18AE5162894D800BB2BFF /* Default-568h@2x.png */; };
 		D8E18AE9162894D800BB2BFF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8E18AE7162894D800BB2BFF /* MainStoryboard.storyboard */; };
 		D8E18AEC162894D800BB2BFF /* VoicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E18AEB162894D800BB2BFF /* VoicesViewController.m */; };
+		D8E18AF3162894EC00BB2BFF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E18AF2162894EC00BB2BFF /* CoreData.framework */; };
+		D8E18AF616289A2E00BB2BFF /* VoicesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D8E18AF416289A2E00BB2BFF /* VoicesModel.xcdatamodeld */; };
+		D8E18AF916289B0400BB2BFF /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E18AF816289B0400BB2BFF /* CoreDataTableViewController.m */; };
+		D8E18AFC16289B8500BB2BFF /* LocationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E18AFB16289B8500BB2BFF /* LocationsTableViewController.m */; };
+		D8E18B141628A32100BB2BFF /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E18B131628A32100BB2BFF /* Location.m */; };
+		D8E18B171628A34000BB2BFF /* Location+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E18B161628A34000BB2BFF /* Location+Helper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +43,16 @@
 		D8E18AE8162894D800BB2BFF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		D8E18AEA162894D800BB2BFF /* VoicesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VoicesViewController.h; sourceTree = "<group>"; };
 		D8E18AEB162894D800BB2BFF /* VoicesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoicesViewController.m; sourceTree = "<group>"; };
+		D8E18AF2162894EC00BB2BFF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D8E18AF516289A2E00BB2BFF /* VoicesModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VoicesModel.xcdatamodel; sourceTree = "<group>"; };
+		D8E18AF716289B0400BB2BFF /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		D8E18AF816289B0400BB2BFF /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		D8E18AFA16289B8500BB2BFF /* LocationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsTableViewController.h; sourceTree = "<group>"; };
+		D8E18AFB16289B8500BB2BFF /* LocationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsTableViewController.m; sourceTree = "<group>"; };
+		D8E18B121628A32100BB2BFF /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		D8E18B131628A32100BB2BFF /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		D8E18B151628A34000BB2BFF /* Location+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Location+Helper.h"; sourceTree = "<group>"; };
+		D8E18B161628A34000BB2BFF /* Location+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Location+Helper.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E18AF3162894EC00BB2BFF /* CoreData.framework in Frameworks */,
 				D8E18AD0162894D800BB2BFF /* UIKit.framework in Frameworks */,
 				D8E18AD2162894D800BB2BFF /* Foundation.framework in Frameworks */,
 				D8E18AD4162894D800BB2BFF /* CoreGraphics.framework in Frameworks */,
@@ -56,6 +73,7 @@
 		D8E18AC0162894D800BB2BFF = {
 			isa = PBXGroup;
 			children = (
+				D8E18AF2162894EC00BB2BFF /* CoreData.framework */,
 				D8E18AD5162894D800BB2BFF /* Voices */,
 				D8E18ACE162894D800BB2BFF /* Frameworks */,
 				D8E18ACC162894D800BB2BFF /* Products */,
@@ -83,11 +101,20 @@
 		D8E18AD5162894D800BB2BFF /* Voices */ = {
 			isa = PBXGroup;
 			children = (
+				D8E18B121628A32100BB2BFF /* Location.h */,
+				D8E18B131628A32100BB2BFF /* Location.m */,
+				D8E18B151628A34000BB2BFF /* Location+Helper.h */,
+				D8E18B161628A34000BB2BFF /* Location+Helper.m */,
 				D8E18ADE162894D800BB2BFF /* VoicesAppDelegate.h */,
 				D8E18ADF162894D800BB2BFF /* VoicesAppDelegate.m */,
 				D8E18AE7162894D800BB2BFF /* MainStoryboard.storyboard */,
+				D8E18AFA16289B8500BB2BFF /* LocationsTableViewController.h */,
+				D8E18AFB16289B8500BB2BFF /* LocationsTableViewController.m */,
+				D8E18AF416289A2E00BB2BFF /* VoicesModel.xcdatamodeld */,
 				D8E18AEA162894D800BB2BFF /* VoicesViewController.h */,
 				D8E18AEB162894D800BB2BFF /* VoicesViewController.m */,
+				D8E18AF716289B0400BB2BFF /* CoreDataTableViewController.h */,
+				D8E18AF816289B0400BB2BFF /* CoreDataTableViewController.m */,
 				D8E18AD6162894D800BB2BFF /* Supporting Files */,
 			);
 			path = Voices;
@@ -177,6 +204,11 @@
 				D8E18ADC162894D800BB2BFF /* main.m in Sources */,
 				D8E18AE0162894D800BB2BFF /* VoicesAppDelegate.m in Sources */,
 				D8E18AEC162894D800BB2BFF /* VoicesViewController.m in Sources */,
+				D8E18AF616289A2E00BB2BFF /* VoicesModel.xcdatamodeld in Sources */,
+				D8E18AF916289B0400BB2BFF /* CoreDataTableViewController.m in Sources */,
+				D8E18AFC16289B8500BB2BFF /* LocationsTableViewController.m in Sources */,
+				D8E18B141628A32100BB2BFF /* Location.m in Sources */,
+				D8E18B171628A34000BB2BFF /* Location+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +327,19 @@
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D8E18AF416289A2E00BB2BFF /* VoicesModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D8E18AF516289A2E00BB2BFF /* VoicesModel.xcdatamodel */,
+			);
+			currentVersion = D8E18AF516289A2E00BB2BFF /* VoicesModel.xcdatamodel */;
+			path = VoicesModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D8E18AC2162894D800BB2BFF /* Project object */;
 }

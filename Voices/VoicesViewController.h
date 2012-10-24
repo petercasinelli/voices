@@ -10,4 +10,10 @@
 
 @interface VoicesViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *latitude;
+@property (weak, nonatomic) IBOutlet UITextField *longitude;
+@property (weak, nonatomic) IBOutlet UITextField *locationTitle;
+
+@property (nonatomic, strong) UIManagedDocument *locationsDatabase;
+
 @end
