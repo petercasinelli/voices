@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8C1F7631638C1F60077E228 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C1F7621638C1F60077E228 /* MapViewController.m */; };
+		D8C1F7661638C7110077E228 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C1F7651638C7110077E228 /* MapKit.framework */; };
+		D8C1F7681638C7490077E228 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C1F7671638C7490077E228 /* CoreLocation.framework */; };
 		D8E18AD0162894D800BB2BFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E18ACF162894D800BB2BFF /* UIKit.framework */; };
 		D8E18AD2162894D800BB2BFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E18AD1162894D800BB2BFF /* Foundation.framework */; };
 		D8E18AD4162894D800BB2BFF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E18AD3162894D800BB2BFF /* CoreGraphics.framework */; };
@@ -27,6 +30,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D8C1F7611638C1F60077E228 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		D8C1F7621638C1F60077E228 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		D8C1F7651638C7110077E228 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D8C1F7671638C7490077E228 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D8E18ACB162894D800BB2BFF /* Voices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Voices.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E18ACF162894D800BB2BFF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D8E18AD1162894D800BB2BFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -60,6 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C1F7681638C7490077E228 /* CoreLocation.framework in Frameworks */,
+				D8C1F7661638C7110077E228 /* MapKit.framework in Frameworks */,
 				D8E18AF3162894EC00BB2BFF /* CoreData.framework in Frameworks */,
 				D8E18AD0162894D800BB2BFF /* UIKit.framework in Frameworks */,
 				D8E18AD2162894D800BB2BFF /* Foundation.framework in Frameworks */,
@@ -73,6 +82,8 @@
 		D8E18AC0162894D800BB2BFF = {
 			isa = PBXGroup;
 			children = (
+				D8C1F7671638C7490077E228 /* CoreLocation.framework */,
+				D8C1F7651638C7110077E228 /* MapKit.framework */,
 				D8E18AF2162894EC00BB2BFF /* CoreData.framework */,
 				D8E18AD5162894D800BB2BFF /* Voices */,
 				D8E18ACE162894D800BB2BFF /* Frameworks */,
@@ -108,6 +119,8 @@
 				D8E18ADE162894D800BB2BFF /* VoicesAppDelegate.h */,
 				D8E18ADF162894D800BB2BFF /* VoicesAppDelegate.m */,
 				D8E18AE7162894D800BB2BFF /* MainStoryboard.storyboard */,
+				D8C1F7611638C1F60077E228 /* MapViewController.h */,
+				D8C1F7621638C1F60077E228 /* MapViewController.m */,
 				D8E18AFA16289B8500BB2BFF /* LocationsTableViewController.h */,
 				D8E18AFB16289B8500BB2BFF /* LocationsTableViewController.m */,
 				D8E18AF416289A2E00BB2BFF /* VoicesModel.xcdatamodeld */,
@@ -209,6 +222,7 @@
 				D8E18AFC16289B8500BB2BFF /* LocationsTableViewController.m in Sources */,
 				D8E18B141628A32100BB2BFF /* Location.m in Sources */,
 				D8E18B171628A34000BB2BFF /* Location+Helper.m in Sources */,
+				D8C1F7631638C1F60077E228 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +339,7 @@
 				D8E18AF1162894D800BB2BFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -81,16 +81,7 @@
 
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // we'll segue to ANY view controller that has a photographer @property
-    if ([segue.destinationViewController respondsToSelector:@selector(setupFetchedResultsControllerinManagedObjectContext:)]) {
-        // use performSelector:withObject: to send without compiler checking
-        // (which is acceptable here because we used introspection to be sure this is okay)
-        NSLog(@"Seguing...");
-        [segue.destinationViewController performSelector:@selector(setupFetchedResultsControllerinManagedObjectContext:) withObject:self.locationsDatabase.managedObjectContext];
-    }
-}
+
 
 //Hide the keyboard when user touches on background
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

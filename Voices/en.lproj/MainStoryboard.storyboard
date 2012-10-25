@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="P2S-fl-4dg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="7cF-t1-LL0">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
     </dependencies>
@@ -76,13 +76,7 @@
                             <constraint firstItem="YMb-zt-A66" firstAttribute="top" secondItem="3" secondAttribute="top" constant="72" id="yxZ-7t-M2H"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Location" id="WrO-1f-gTZ">
-                        <barButtonItem key="rightBarButtonItem" title="Show Locations" id="5Nk-qZ-CEL">
-                            <connections>
-                                <segue destination="BID-S4-3gp" kind="push" identifier="Show Locations" id="GJ6-YY-gjv"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Add Location" id="WrO-1f-gTZ"/>
                     <connections>
                         <outlet property="latitude" destination="YMb-zt-A66" id="zD0-Ig-vDZ"/>
                         <outlet property="locationTitle" destination="Kyg-hE-WA3" id="Vr4-77-WSK"/>
@@ -91,7 +85,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="14" y="35"/>
+            <point key="canvasLocation" x="748" y="-460"/>
         </scene>
         <!--Locations Table View Controller - Your Locations-->
         <scene sceneID="aaQ-RE-g1Q">
@@ -133,25 +127,63 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cdq-co-Wey" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="517" y="32"/>
+            <point key="canvasLocation" x="743" y="205"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="kXG-TQ-2tn">
+            <objects>
+                <viewController id="72y-sS-Mug" customClass="MapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2Co-a5-DUc">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-bY-PWW"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sUz-bY-PWW" firstAttribute="bottom" secondItem="2Co-a5-DUc" secondAttribute="bottom" type="default" id="8ls-ja-X6P"/>
+                            <constraint firstItem="sUz-bY-PWW" firstAttribute="leading" secondItem="2Co-a5-DUc" secondAttribute="leading" type="default" id="TLr-aT-w9H"/>
+                            <constraint firstItem="sUz-bY-PWW" firstAttribute="trailing" secondItem="2Co-a5-DUc" secondAttribute="trailing" type="default" id="arH-eG-jYP"/>
+                            <constraint firstItem="sUz-bY-PWW" firstAttribute="top" secondItem="2Co-a5-DUc" secondAttribute="top" type="default" id="eNe-dL-bvP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="B6T-h4-Hfp">
+                        <barButtonItem key="leftBarButtonItem" title="Manual" id="Tin-t1-7v5">
+                            <connections>
+                                <segue destination="2" kind="push" id="vbe-aK-vBq"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Show Voices" id="ZhW-WA-7FO">
+                            <connections>
+                                <segue destination="BID-S4-3gp" kind="push" id="J24-Qc-3gD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="sUz-bY-PWW" id="iEP-cM-6oI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3bu-Ac-yfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="188" y="-49"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="Mss-C7-Sc7">
+        <scene sceneID="Mhl-zN-kho">
             <objects>
-                <navigationController id="P2S-fl-4dg" sceneMemberID="viewController">
+                <navigationController id="7cF-t1-LL0" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YdY-UO-M36">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PgM-67-1N6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="2" kind="relationship" relationship="rootViewController" id="VV2-9O-j8e"/>
+                        <segue destination="72y-sS-Mug" kind="relationship" relationship="rootViewController" id="ilK-Y8-cFo"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eI4-8o-7xq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KX9-hX-caX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-512" y="35"/>
+            <point key="canvasLocation" x="-338" y="-49"/>
         </scene>
     </scenes>
     <classes>
@@ -161,6 +193,12 @@
         <class className="LocationsTableViewController" superclassName="CoreDataTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationsTableViewController.h"/>
         </class>
+        <class className="MapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>
@@ -168,6 +206,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VoicesViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="latitude" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="locationTitle" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="longitude" candidateClass="UITextField"/>
             </relationships>
         </class>
