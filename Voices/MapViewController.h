@@ -7,11 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface MapViewController : UIViewController
+@interface MapViewController : UIViewController <CLLocationManagerDelegate, AVAudioRecorderDelegate>
 
 @property (nonatomic, strong) UIManagedDocument *locationsDatabase;
+@property (nonatomic, retain) CLLocationManager *locationManager;
+
+
+@property (nonatomic, strong) NSNumber *latitude;
+@property (nonatomic, strong) NSNumber *longitude;
+
+@property (nonatomic, strong) AVAudioRecorder *audioRecorder;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *recordButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *stopButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *playButton;
+
+
 
 @property (nonatomic, weak) NSArray *annotations;
+
 
 @end
