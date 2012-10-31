@@ -11,7 +11,7 @@
 @class VoicesViewController;
 
 @protocol VoicesDataSource
-- (IBAction)addLocationPressedWithLatitude: (double) latitude andLongitude: (double) longitude;
+- (IBAction)addLocationPressedWithTitle: (NSString *)title AndLatitude: (double) latitude andLongitude: (double) longitude;
 @end
 
 @interface VoicesViewController : UIViewController
