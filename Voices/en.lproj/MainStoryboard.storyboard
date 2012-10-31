@@ -9,7 +9,7 @@
             <objects>
                 <viewController id="2" customClass="VoicesViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K47-KY-5d7">
@@ -30,7 +30,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="addLocationPressed:" destination="2" eventType="touchUpInside" id="dad-Tn-8kn"/>
+                                    <action selector="addLocation:" destination="2" eventType="touchUpInside" id="4Ai-ca-4kD"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Latitude" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRq-id-n9z">
@@ -92,7 +92,7 @@
             <objects>
                 <tableViewController id="BID-S4-3gp" customClass="LocationsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="I7l-KT-13q">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -134,23 +134,50 @@
             <objects>
                 <viewController id="72y-sS-Mug" customClass="MapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2Co-a5-DUc">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-bY-PWW"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-bY-PWW"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jRa-0w-nHk">
+                                <items>
+                                    <barButtonItem title="Store Location" id="2Da-NF-QZk">
+                                        <connections>
+                                            <action selector="storeLocation:" destination="72y-sS-Mug" id="pSw-aI-GSl"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Record" id="DU4-Sc-y7U">
+                                        <connections>
+                                            <action selector="recordButtonPressed:" destination="72y-sS-Mug" id="vSX-zL-on5"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Stop" id="A7n-qC-mHv">
+                                        <connections>
+                                            <action selector="stopButtonPressed:" destination="72y-sS-Mug" id="NDx-JS-pHd"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Play" id="gd6-tP-KWZ">
+                                        <connections>
+                                            <action selector="playButtonPressed:" destination="72y-sS-Mug" id="u7w-te-qfA"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="jRa-0w-nHk" firstAttribute="trailing" secondItem="2Co-a5-DUc" secondAttribute="trailing" type="default" id="8WQ-8G-wQf"/>
                             <constraint firstItem="sUz-bY-PWW" firstAttribute="bottom" secondItem="2Co-a5-DUc" secondAttribute="bottom" type="default" id="8ls-ja-X6P"/>
                             <constraint firstItem="sUz-bY-PWW" firstAttribute="leading" secondItem="2Co-a5-DUc" secondAttribute="leading" type="default" id="TLr-aT-w9H"/>
                             <constraint firstItem="sUz-bY-PWW" firstAttribute="trailing" secondItem="2Co-a5-DUc" secondAttribute="trailing" type="default" id="arH-eG-jYP"/>
+                            <constraint firstItem="jRa-0w-nHk" firstAttribute="bottom" secondItem="2Co-a5-DUc" secondAttribute="bottom" type="default" id="bma-pD-0i9"/>
                             <constraint firstItem="sUz-bY-PWW" firstAttribute="top" secondItem="2Co-a5-DUc" secondAttribute="top" type="default" id="eNe-dL-bvP"/>
+                            <constraint firstItem="jRa-0w-nHk" firstAttribute="leading" secondItem="2Co-a5-DUc" secondAttribute="leading" type="default" id="yAw-Yb-dYP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="B6T-h4-Hfp">
                         <barButtonItem key="leftBarButtonItem" title="Manual" id="Tin-t1-7v5">
                             <connections>
-                                <segue destination="2" kind="push" id="vbe-aK-vBq"/>
+                                <segue destination="2" kind="push" identifier="Add Location Form" id="vbe-aK-vBq"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Show Voices" id="ZhW-WA-7FO">
@@ -161,6 +188,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="sUz-bY-PWW" id="iEP-cM-6oI"/>
+                        <outlet property="playButton" destination="gd6-tP-KWZ" id="kEG-zi-WUL"/>
+                        <outlet property="recordButton" destination="DU4-Sc-y7U" id="xPQ-rq-q15"/>
+                        <outlet property="stopButton" destination="A7n-qC-mHv" id="MZB-Bf-k1d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3bu-Ac-yfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -186,34 +216,9 @@
             <point key="canvasLocation" x="-338" y="-49"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="LocationsTableViewController" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationsTableViewController.h"/>
-        </class>
-        <class className="MapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="VoicesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VoicesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="latitude" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="locationTitle" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="longitude" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
 </document>
