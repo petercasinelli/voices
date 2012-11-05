@@ -14,7 +14,7 @@
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController () <VoicesDataSource, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+@interface MapViewController () <VoicesDataSource, AVAudioRecorderDelegate, AVAudioPlayerDelegate, MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @end
 
@@ -83,7 +83,7 @@
 
 }
 
-- (IBAction)addLocationPressedWithTitle: (NSString *)title AndLatitude: (double) latitude andLongitude: (double) longitude {
+- (void)addLocationPressedWithTitle: (NSString *)title AndLatitude: (double) latitude andLongitude: (double) longitude {
  
  NSDictionary *locationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
  [NSNumber numberWithDouble:latitude],  @"latitude",
@@ -230,7 +230,7 @@
         NSError *error;
         
         self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.audioRecorder.url error:&error];
-        
+        NSLog(@"AudioPlayer URL: %@", self.audioRecorder.url);
         self.audioPlayer.delegate = self;
         
         if (error)
@@ -257,6 +257,84 @@
         [self.audioPlayer stop];
     }
 }
+
+//Get the bytes from temporary sound file
+//Create record in database using bytes
+- (IBAction)saveButtonPressed:(id)sender {
+
+    NSURL *soundFileUrl = self.audioRecorder.url;
+    //self.audioRecorder.url
+    NSData* audioRecording = [NSData dataWithContentsOfURL:soundFileUrl];
+    //NSData *audioRecording2 = [[NSData alloc] initWithContentsOfURL:soundFileUrl];
+    CLLocationCoordinate2D currentLocation = self.mapView.userLocation.coordinate;
+    double latitude = currentLocation.latitude;
+    double longitude = currentLocation.longitude;
+    
+    NSString *title = [NSString stringWithFormat:@"Audio at %@", [NSDate date]];
+    [self addLocationWithTitle:title AndLatitude:latitude andLongitude:longitude andAudio:audioRecording];
+    
+    //NSLog(@"%@", audioRecording);
+    
+}
+
+- (void)addLocationWithTitle: (NSString *)title AndLatitude: (double) latitude andLongitude: (double) longitude andAudio: (NSData *)data
+{
+
+    
+    //***** If I was using file system
+    //Create file with file name that depends on time
+    
+    NSError *error;
+    
+    /* Create file manager
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    // Point to Document directory
+    NSString *documentsDirectory = [NSHomeDirectory()
+                                    stringByAppendingPathComponent:@"Documents"];
+    //Get URL from documents directory
+    NSURL *documentsUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    //Append recording file name
+    NSString *newFileName = [NSString stringWithFormat:@"voice-%g.caf", [[NSDate date] timeIntervalSince1970]];
+   
+    NSURL *soundFileUrl = [documentsUrl URLByAppendingPathComponent:newFileName];
+    
+    NSURL *tempFilePath = [documentsUrl URLByAppendingPathComponent:@"recording.caf"];*/
+    
+    
+    /*BOOL writeResult = [data writeToURL:soundFileUrl options:NSDataWritingAtomic error:&error];
+    
+    if (error)
+    {
+        NSLog(@"Error is: %@", [error localizedDescription]);
+    } else {
+        NSLog(@"Result was: %d", writeResult);
+        NSLog(@"Documents directory: %@",
+              [fileMgr contentsOfDirectoryAtPath:documentsDirectory error:&error]);
+        
+        
+    }*/
+    
+    //[fileManager copyItemAtPath:resourcePath toPath:txtPath error:&error];
+    //[fileManager copyItemAtURL:tempFilePath toURL:soundFileUrl error:&error];
+    
+     //NSLog(@"File name: %@", newFileName);
+    
+    //Insert into DB with file name as location
+    NSDictionary *locationInfo = [NSDictionary  dictionaryWithObjectsAndKeys:
+                                  [NSNumber numberWithDouble:latitude],  @"latitude",
+                                  [NSNumber numberWithDouble:longitude], @"longitude",
+                                  title, @"title",
+                                  /*newFileName, @"fileName",*/ //If I was using file system
+                                  data, @"audioRecording",
+                                  nil];
+    
+    /*Location *newLocation = */[Location locationWithInfo:locationInfo
+                                inManagedObjectContext:self.locationsDatabase.managedObjectContext];
+
+     //NSLog(@"Object URI is: %@ and its name is %@ and add audio location was pressed and latitude is %@ and longitude is %@", newLocation.objectID.URIRepresentation, newLocation.fileName, newLocation.latitude, newLocation.longitude);
+}
+
 
 -(void) prepareAudioRecorder
 {
@@ -290,6 +368,36 @@
 
     
 }
+
+#pragma mark - MKMapViewDelegate
+/*
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    MKAnnotationView *aView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MapVC"];
+    if (!aView) {
+        aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapVC"];
+        aView.canShowCallout = YES;
+        aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        // could put a rightCalloutAccessoryView here
+    }
+    
+    aView.annotation = annotation;
+    [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];
+    
+    return aView;
+}
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
+{
+    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    NSLog(@"callout accessory tapped for annotation %@", [view.annotation title]);
+}*/
+
 
 #pragma mark - View Controller Lifecycle
 

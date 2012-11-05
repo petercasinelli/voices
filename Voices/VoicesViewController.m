@@ -31,7 +31,7 @@
 - (IBAction)addLocation:(id)sender {
     NSLog(@"Pressed add location");
     
-    [_dataSource addLocationPressedWithTitle:self.locationTitle.text AndLatitude:[self.latitude.text doubleValue] andLongitude:[self.longitude.text doubleValue]];
+    [self.dataSource addLocationPressedWithTitle:self.locationTitle.text AndLatitude:[self.latitude.text doubleValue] andLongitude:[self.longitude.text doubleValue]];
 }
 
 @end

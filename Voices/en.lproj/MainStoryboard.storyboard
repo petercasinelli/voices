@@ -140,7 +140,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-bY-PWW"/>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jRa-0w-nHk">
                                 <items>
-                                    <barButtonItem title="Store Location" id="2Da-NF-QZk">
+                                    <barButtonItem title="Store" id="2Da-NF-QZk">
                                         <connections>
                                             <action selector="storeLocation:" destination="72y-sS-Mug" id="pSw-aI-GSl"/>
                                         </connections>
@@ -158,6 +158,11 @@
                                     <barButtonItem title="Play" id="gd6-tP-KWZ">
                                         <connections>
                                             <action selector="playButtonPressed:" destination="72y-sS-Mug" id="u7w-te-qfA"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Save" id="xb9-Oq-aIa">
+                                        <connections>
+                                            <action selector="saveButtonPressed:" destination="72y-sS-Mug" id="QOz-sQ-k2T"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
