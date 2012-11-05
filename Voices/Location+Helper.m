@@ -20,6 +20,8 @@
     location.latitude = [locationInfo objectForKey:@"latitude"];
     location.longitude = [locationInfo objectForKey:@"longitude"];
     location.title = [locationInfo objectForKey:@"title"];
+    location.audioRecording = [locationInfo objectForKey:@"audioRecording"];
+    location.fileName = [locationInfo objectForKey:@"fileName"];
     
     return location;
 }

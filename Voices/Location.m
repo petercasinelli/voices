@@ -2,7 +2,7 @@
 //  Location.m
 //  Voices
 //
-//  Created by Peter Casinelli on 10/12/12.
+//  Created by Peter Casinelli on 11/1/12.
 //  Copyright (c) 2012 Peter Casinelli. All rights reserved.
 //
 
@@ -14,5 +14,7 @@
 @dynamic latitude;
 @dynamic longitude;
 @dynamic title;
+@dynamic audioRecording;
+@dynamic fileName;
 
 @end
