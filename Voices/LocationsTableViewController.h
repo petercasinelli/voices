@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface LocationsTableViewController : CoreDataTableViewController
 
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @end
