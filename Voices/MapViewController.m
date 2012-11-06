@@ -22,6 +22,7 @@
 
 @synthesize locationsDatabase = _locationsDatabase;
 @synthesize locationManager = _locationManager;
+@synthesize locations = _locations;
 
 @synthesize latitude = _latitude;
 @synthesize longitude = _longitude;
@@ -47,6 +48,7 @@
 {
     _mapView = mapView;
     [self updateMapView];
+    
 }
 
 /*
@@ -58,6 +60,41 @@
 */
 
 #pragma mark - Location
+
+- (void) updateLocations
+{
+    NSManagedObjectContext *moc = self.locationsDatabase.managedObjectContext;
+    //NSLog(@"Moc is %@", moc);
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:moc];
+    [request setEntity:entityDescription];
+    
+    //NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
+    
+    
+    NSError *error;
+    NSArray *array = [moc executeFetchRequest:request error:&error];
+    //NSLog(@"Array is %d", [array count]);
+    
+    if (error){
+        NSLog(@"Error");
+    }
+    if (array == nil)
+    {
+        // Deal with error...
+        NSLog(@"None");
+    }
+    
+    for (Location *location in array){
+        NSLog(@"Location title: %@", location.title);
+        
+    }
+    
+    
+    
+}
 
 - (CLLocationManager *)locationManager
 {
@@ -115,20 +152,20 @@
 
 //Check different cases of document state
 - (void) useDocument {
-    
+    NSLog(@"Using document...");
     if (![[NSFileManager defaultManager] fileExistsAtPath:[self.locationsDatabase.fileURL path]]) {
         // does not exist on disk, so create it
         [self.locationsDatabase saveToURL:self.locationsDatabase.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
-            //[self setupFetchedResultsController];
+            [self updateLocations];
         }];
     } else if (self.locationsDatabase.documentState == UIDocumentStateClosed) {
         // exists on disk, but we need to open it
         [self.locationsDatabase openWithCompletionHandler:^(BOOL success) {
-            //[self setupFetchedResultsController];
+            [self updateLocations];
         }];
     } else if (self.locationsDatabase.documentState == UIDocumentStateNormal) {
         // already open and ready to use
-        //[self setupFetchedResultsController];
+        [self updateLocations];
     }
 }
 
@@ -136,6 +173,7 @@
 {
     if (_locationsDatabase != locationsDatabase){
         _locationsDatabase = locationsDatabase;
+        NSLog(@"Setting locations database...");
         [self useDocument];
     }
 }
@@ -405,6 +443,7 @@
 {
     [super viewDidLoad];
     
+        
     [self prepareAudioRecorder];
     [self.locationManager startUpdatingLocation];
     
@@ -414,12 +453,17 @@
 {
     [super viewWillAppear:animated];
     
+    NSLog(@"viewDidLoad");
     //Create database if necessary; then set up fetch results controller
     if (!self.locationsDatabase){
         NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         url = [url URLByAppendingPathComponent:@"Default Locations Database"];
         self.locationsDatabase = [[UIManagedDocument alloc] initWithFileURL:url];
+        //NSLog(@"Context is %@", self.locationsDatabase.managedObjectContext);
     }
+    
+    [self updateLocations];
+
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

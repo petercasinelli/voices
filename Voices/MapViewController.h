@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) UIManagedDocument *locationsDatabase;
 @property (nonatomic, retain) CLLocationManager *locationManager;
-
+@property (nonatomic, strong) NSArray *locations;
 
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
@@ -27,7 +27,7 @@
 
 
 
-@property (nonatomic, weak) NSArray *annotations;
+@property (nonatomic, strong) NSArray *annotations;
 
 
 @end
