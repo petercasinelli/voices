@@ -11,10 +11,11 @@
 #import "VoicesViewController.h"
 #import "Location.h"
 #import "Location+Helper.h"
+#import "VoicesAnnotation.h"
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController () <VoicesDataSource, AVAudioRecorderDelegate, AVAudioPlayerDelegate, MKMapViewDelegate>
+@interface MapViewController () <VoicesDataSource, AVAudioRecorderDelegate, AVAudioPlayerDelegate, MKMapViewDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @end
 
@@ -23,6 +24,7 @@
 @synthesize locationsDatabase = _locationsDatabase;
 @synthesize locationManager = _locationManager;
 @synthesize locations = _locations;
+@synthesize annotations = _annotations;
 
 @synthesize latitude = _latitude;
 @synthesize longitude = _longitude;
@@ -32,8 +34,6 @@
 
 @synthesize recordButton = _recordButton;
 @synthesize stopButton = _stopButton;
-
-@synthesize annotations = _annotations;
 
 
 #pragma mark - Map View
@@ -47,22 +47,38 @@
 - (void) setMapView:(MKMapView *)mapView
 {
     _mapView = mapView;
+    _mapView.delegate = self;
     [self updateMapView];
     
 }
 
-/*
+
+#pragma mark - Annotations
+
 -(void) setAnnotations:(NSArray *)annotations
 {
     _annotations = annotations;
     [self updateMapView];
 }
-*/
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)annotationViews
+{
+    NSLog(@"Annotation was added!");
+     for (MKAnnotationView *annView in annotationViews)
+    {
+        CGRect endFrame = annView.frame;
+        annView.frame = CGRectOffset(endFrame, 0, -500);
+        [UIView animateWithDuration:0.5
+                         animations:^{ annView.frame = endFrame; }];
+    }
+}
 
 #pragma mark - Location
 
+//Get locations from core data
 - (void) updateLocations
 {
+    NSLog(@"Update loc");
     NSManagedObjectContext *moc = self.locationsDatabase.managedObjectContext;
     //NSLog(@"Moc is %@", moc);
     
@@ -75,23 +91,34 @@
     
     
     NSError *error;
-    NSArray *array = [moc executeFetchRequest:request error:&error];
+    NSArray *newLocations = [moc executeFetchRequest:request error:&error];
     //NSLog(@"Array is %d", [array count]);
     
     if (error){
         NSLog(@"Error");
     }
-    if (array == nil)
+    if (newLocations == nil)
     {
         // Deal with error...
-        NSLog(@"None");
+        NSLog(@"Nil");
     }
     
-    for (Location *location in array){
-        NSLog(@"Location title: %@", location.title);
+    NSMutableArray *voiceAnnotations = [[NSMutableArray alloc] initWithCapacity:[newLocations count]];
+    for (Location *location in newLocations){
+        NSDictionary *voiceDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         location.title,@"title",
+                                         location.latitude, @"latitude",
+                                         location.longitude, @"longitude",
+                                         location.audioRecording, @"audioRecording"//,
+                                         //location.fileName, @"fileName"
+                                         , nil];
+        VoicesAnnotation *annotation = [VoicesAnnotation annotationForVoice:voiceDictionary];
+        [voiceAnnotations addObject:annotation];
         
     }
     
+    self.annotations = voiceAnnotations;
+
     
     
 }
@@ -129,7 +156,8 @@
  
  [Location locationWithInfo:locationInfo
  inManagedObjectContext:self.locationsDatabase.managedObjectContext];
- 
+    
+    [self updateLocations];
  NSLog(@"Add location was pressed and latitude is %g and longitude is %g", latitude, longitude);
  
  }
@@ -145,6 +173,13 @@
     [self.mapView setRegion:region animated:YES];
     
     //NSLog(@"NewLocation %@ %@", self.latitude, self.longitude);
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"Button pressed at index %d", buttonIndex);
 }
 
 
@@ -369,6 +404,8 @@
     
     /*Location *newLocation = */[Location locationWithInfo:locationInfo
                                 inManagedObjectContext:self.locationsDatabase.managedObjectContext];
+    
+    [self updateLocations];
 
      //NSLog(@"Object URI is: %@ and its name is %@ and add audio location was pressed and latitude is %@ and longitude is %@", newLocation.objectID.URIRepresentation, newLocation.fileName, newLocation.latitude, newLocation.longitude);
 }
