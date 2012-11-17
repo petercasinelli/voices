@@ -17,6 +17,7 @@
 
 @interface MapViewController () <VoicesDataSource, AVAudioRecorderDelegate, AVAudioPlayerDelegate, MKMapViewDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) NSDictionary *lastSavedLocation;
 @end
 
 @implementation MapViewController
@@ -24,6 +25,7 @@
 @synthesize locationsDatabase = _locationsDatabase;
 @synthesize locationManager = _locationManager;
 @synthesize locations = _locations;
+@synthesize lastSavedLocation = _lastSavedLocation;
 @synthesize annotations = _annotations;
 
 @synthesize latitude = _latitude;
@@ -179,7 +181,39 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"Button pressed at index %d", buttonIndex);
+     NSLog(@"Button pressed at index %d", buttonIndex);
+    NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+    //NSLog(@"Last saved location is %@",self.lastSavedLocation);
+    
+    //No Title so use default date title
+    if (buttonIndex == 0){
+        
+        NSString *defaultTitle = @"Default title";
+        NSMutableDictionary *locationWithTitle = [self.lastSavedLocation mutableCopy];
+        [locationWithTitle setObject:defaultTitle forKey:@"title"];
+        
+        Location *newLocation = [Location locationWithInfo:locationWithTitle
+                                    inManagedObjectContext:self.locationsDatabase.managedObjectContext];
+        
+        [self updateLocations];
+        
+        NSLog(@"Object URI is: %@ and its name is %@ and add audio location was pressed and latitude is %@ and longitude is %@", newLocation.objectID.URIRepresentation, newLocation.fileName, newLocation.latitude, newLocation.longitude);
+        
+    //Entered a title
+    } else if (buttonIndex == 1){
+   
+        
+        NSMutableDictionary *locationWithTitle = [self.lastSavedLocation mutableCopy];
+        [locationWithTitle setObject:[[alertView textFieldAtIndex:0] text] forKey:@"title"];
+        Location *newLocation = [Location locationWithInfo:locationWithTitle
+                                        inManagedObjectContext:self.locationsDatabase.managedObjectContext];
+        
+        [self updateLocations];
+        
+        NSLog(@"Object URI is: %@ and its name is %@ and add audio location was pressed and latitude is %@ and longitude is %@", newLocation.objectID.URIRepresentation, newLocation.fileName, newLocation.latitude, newLocation.longitude);
+
+    }
+        
 }
 
 
@@ -200,7 +234,7 @@
         }];
     } else if (self.locationsDatabase.documentState == UIDocumentStateNormal) {
         // already open and ready to use
-        [self updateLocations];
+        //[self updateLocations];
     }
 }
 
@@ -241,7 +275,7 @@
     
     NSError *setCategoryError = nil;
     [[AVAudioSession sharedInstance]
-     setCategory: AVAudioSessionCategoryRecord
+     setCategory: AVAudioSessionCategoryPlayAndRecord
      error: &setCategoryError];
     
     if (setCategoryError) { /* handle the error condition */ }
@@ -275,6 +309,8 @@
     self.recordButton.enabled = YES;
     self.stopButton.enabled = NO;
     self.playButton.enabled = YES;
+    NSLog(@"Successful play");
+    self.audioPlayer = nil;
 }
 
 
@@ -310,7 +346,15 @@
         {
             NSLog(@"Error: %@", [error localizedDescription]);
         } else {
-            [self.audioPlayer play];
+            NSFileManager *mgr = [NSFileManager defaultManager];
+            if ([mgr fileExistsAtPath:[self.audioRecorder.url path]])
+            {
+                
+                NSLog(@"It exists so playing");
+                [self.audioPlayer prepareToPlay];
+                [self.audioPlayer play];
+            }
+            
         }
         
         
@@ -393,21 +437,31 @@
     
      //NSLog(@"File name: %@", newFileName);
     
-    //Insert into DB with file name as location
     NSDictionary *locationInfo = [NSDictionary  dictionaryWithObjectsAndKeys:
                                   [NSNumber numberWithDouble:latitude],  @"latitude",
                                   [NSNumber numberWithDouble:longitude], @"longitude",
-                                  title, @"title",
                                   /*newFileName, @"fileName",*/ //If I was using file system
                                   data, @"audioRecording",
                                   nil];
+    self.lastSavedLocation = locationInfo;
     
-    /*Location *newLocation = */[Location locationWithInfo:locationInfo
-                                inManagedObjectContext:self.locationsDatabase.managedObjectContext];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Save Your Voice" message:@"Enter a title for your Voice:" delegate:self cancelButtonTitle:@"No Title" otherButtonTitles:@"Save", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
     
-    [self updateLocations];
+    /*UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Save Your Voice" message:@"nnn" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+    
+    UITextField *voiceTitleTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 50.0, 260.0, 25.0)];
+    [voiceTitleTextField setBackgroundColor:[UIColor whiteColor]];
+    [voiceTitleTextField setPlaceholder:@"Enter your Voice title"];
+    [voiceTitleTextField becomeFirstResponder];
+    [alertView addSubview:voiceTitleTextField];
+    
+    [alertView show];*/
+    
 
-     //NSLog(@"Object URI is: %@ and its name is %@ and add audio location was pressed and latitude is %@ and longitude is %@", newLocation.objectID.URIRepresentation, newLocation.fileName, newLocation.latitude, newLocation.longitude);
+    
+
 }
 
 
@@ -419,13 +473,13 @@
     //Get URL from documents directory
     NSURL *soundFileUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
     //Append recording file name
-    soundFileUrl = [soundFileUrl URLByAppendingPathComponent:@"recording.caf"];
+    soundFileUrl = [soundFileUrl URLByAppendingPathComponent:@"recording.ima4"];
     
     NSDictionary *recordingSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                       [NSNumber numberWithInt:1],AVEncoderAudioQualityKey,
-                                       [NSNumber numberWithInt:2],AVEncoderBitRateKey,
-                                       [NSNumber numberWithInt:2],AVNumberOfChannelsKey,
-                                       [NSNumber numberWithInt:2],AVSampleRateKey,
+                                       [NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
+                                       [NSNumber numberWithInt:32000.0],AVSampleRateKey,
+                                       [NSNumber numberWithInt: 1],AVNumberOfChannelsKey,
+                                       [NSNumber numberWithInt:16],AVLinearPCMBitDepthKey,
                                        nil];
      NSError *error = nil;
     
@@ -499,7 +553,7 @@
         //NSLog(@"Context is %@", self.locationsDatabase.managedObjectContext);
     }
     
-    [self updateLocations];
+    //[self updateLocations];
 
 }
 
