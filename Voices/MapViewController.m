@@ -42,15 +42,19 @@
 
 -(void) updateMapView
 {
+    NSLog(@"updateMapView");
     if (self.mapView.annotations) [self.mapView removeAnnotations:self.mapView.annotations];
     if (self.annotations) [self.mapView addAnnotations:self.annotations];
 }
 
 - (void) setMapView:(MKMapView *)mapView
 {
+    NSLog(@"setMapView");
     _mapView = mapView;
+    
     _mapView.delegate = self;
-    [self updateMapView];
+    
+   // [self updateMapView];
     
 }
 
@@ -59,6 +63,7 @@
 
 -(void) setAnnotations:(NSArray *)annotations
 {
+    NSLog(@"setAnnotations");
     _annotations = annotations;
     [self updateMapView];
 }
@@ -87,14 +92,21 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
         request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:moc];
+    
+    CLLocationCoordinate2D currentLocation = [self getCurrentLocationCoordinates];
+    double latitude = currentLocation.latitude;
+    double longitude = currentLocation.longitude;
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"latitude > %g AND latitude < %g AND longitude > %g AND longitude < %g", latitude-5, latitude+5, longitude-5, longitude+5];
     [request setEntity:entityDescription];
+    [request setPredicate:predicate];
     
     //NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
     
     
     NSError *error;
     NSArray *newLocations = [moc executeFetchRequest:request error:&error];
-    //NSLog(@"Array is %d", [array count]);
+    NSLog(@"Array is %d", [newLocations count]);
     
     if (error){
         NSLog(@"Error");
@@ -138,6 +150,12 @@
   
 }
 
+- (CLLocationCoordinate2D) getCurrentLocationCoordinates
+{
+    return self.mapView.userLocation.coordinate;
+}
+#pragma mark - Debug/Test Methods 
+/*
 - (IBAction)storeLocation:(id)sender {
     
     CLLocationCoordinate2D currentLocation = self.mapView.userLocation.coordinate;
@@ -162,23 +180,53 @@
     [self updateLocations];
  NSLog(@"Add location was pressed and latitude is %g and longitude is %g", latitude, longitude);
  
- }
+ }*/
+
+-(Location *)addVoiceWithTitle:(NSString *)title
+{
+    NSURL *soundFileUrl = self.audioRecorder.url;
+    NSData* audioRecording = [NSData dataWithContentsOfURL:soundFileUrl];
+    
+    CLLocationCoordinate2D currentLocation = [self getCurrentLocationCoordinates];
+    double latitude = currentLocation.latitude;
+    double longitude = currentLocation.longitude;
+    
+    NSDictionary *locationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [NSNumber numberWithDouble:latitude],  @"latitude",
+                                  [NSNumber numberWithDouble:longitude], @"longitude",
+                                  title, @"title",
+                                  audioRecording, @"audioRecording",
+                                  nil];
+    
+    Location *newVoice = [Location locationWithInfo:locationInfo
+        inManagedObjectContext:self.locationsDatabase.managedObjectContext];
+    
+    return newVoice;
+    
+}
 
 #pragma mark - LocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
 
-    MKCoordinateRegion region;
-    region.center = self.mapView.userLocation.coordinate;
-    region.span = MKCoordinateSpanMake(2.0, 2.0);
-    region = [self.mapView regionThatFits:region];
-    [self.mapView setRegion:region animated:YES];
+  /*  NSLog(@"Latitudes: %g",fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude));
+    NSLog(@"Longitudes: %g",fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude));*/
+
+   if (fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude) > 0.25 &&
+        fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude) > 0.25){
+    MKCoordinateRegion mapRegion;
+    mapRegion.center = newLocation.coordinate;
+    mapRegion.span.latitudeDelta = 0.5;
+    mapRegion.span.longitudeDelta = 0.5;
     
-    //NSLog(@"NewLocation %@ %@", self.latitude, self.longitude);
+    [self.mapView setRegion:mapRegion animated: YES];
+    
+    NSLog(@"New Location: %g %g   Old Location: %g %g", newLocation.coordinate.latitude, newLocation.coordinate.longitude, oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
-
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
      NSLog(@"Button pressed at index %d", buttonIndex);
@@ -215,7 +263,7 @@
     }
         
 }
-
+*/
 
 #pragma mark - Core Data
 
@@ -251,17 +299,34 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // we'll segue to ANY view controller that has a photographer @property
+    
     if ([segue.destinationViewController respondsToSelector:@selector(setupFetchedResultsControllerinManagedObjectContext:)]) {
         // use performSelector:withObject: to send without compiler checking
         // (which is acceptable here because we used introspection to be sure this is okay)
         NSLog(@"Seguing...");
         [segue.destinationViewController performSelector:@selector(setupFetchedResultsControllerinManagedObjectContext:) withObject:self.locationsDatabase.managedObjectContext];
-    } else if ([segue.identifier isEqualToString:@"Add Location Form"]) {
+    } else if ([segue.identifier isEqualToString:@"Save Voice Button"]) {
         NSLog(@"Setting the data source...");
+        
+        //Save temporary data in case last recording is added
+       /* NSURL *soundFileUrl = self.audioRecorder.url;
+        NSData* audioRecording = [NSData dataWithContentsOfURL:soundFileUrl];
+        
+        CLLocationCoordinate2D coordinates = [self getCurrentLocationCoordinates];
+        double latitude = coordinates.latitude;
+        double longitude = coordinates.longitude;*/
+        
+       /* NSDictionary *locationInfo = [NSDictionary  dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithDouble:latitude],  @"latitude",
+                                      [NSNumber numberWithDouble:longitude], @"longitude",
+                                      /*newFileName, @"fileName",*/ //If I was using file system
+                                      /*audioRecording, @"audioRecording",*/
+                                     /* nil];
+        self.lastSavedLocation = locationInfo;*/
+        
         VoicesViewController *vvc = (VoicesViewController *)segue.destinationViewController;
         
-            vvc.dataSource = self;
+        vvc.dataSource = self;
     }
 
 }
@@ -331,7 +396,9 @@
 
 - (IBAction)playButtonPressed:(id)sender {
 
-    if (!self.audioRecorder.recording)
+    double fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[self.audioRecorder.url path] error:nil][NSFileSize] doubleValue];
+    //NSLog(@"File size is %g",fileSize);
+    if (!self.audioRecorder.recording && fileSize > 4096)
     {
         self.stopButton.enabled = YES;
         self.recordButton.enabled = NO;
@@ -377,13 +444,14 @@
 
 //Get the bytes from temporary sound file
 //Create record in database using bytes
+/*
 - (IBAction)saveButtonPressed:(id)sender {
-
+    NSLog(@"Save button pressed");
     NSURL *soundFileUrl = self.audioRecorder.url;
     //self.audioRecorder.url
     NSData* audioRecording = [NSData dataWithContentsOfURL:soundFileUrl];
     //NSData *audioRecording2 = [[NSData alloc] initWithContentsOfURL:soundFileUrl];
-    CLLocationCoordinate2D currentLocation = self.mapView.userLocation.coordinate;
+    CLLocationCoordinate2D currentLocation = [self getCurrentLocationCoordinates];
     double latitude = currentLocation.latitude;
     double longitude = currentLocation.longitude;
     
@@ -393,6 +461,7 @@
     //NSLog(@"%@", audioRecording);
     
 }
+*/
 
 - (void)addLocationWithTitle: (NSString *)title AndLatitude: (double) latitude andLongitude: (double) longitude andAudio: (NSData *)data
 {
@@ -499,33 +568,72 @@
 }
 
 #pragma mark - MKMapViewDelegate
-/*
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        //Don't trample the user location annotation (pulsing blue dot).
+        return nil;
+    }
+    
     MKAnnotationView *aView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MapVC"];
     if (!aView) {
         aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapVC"];
         aView.canShowCallout = YES;
-        aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        
+        //aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        UIImage *playButtonImage = [UIImage imageNamed:@"playButton.png"];
+        
+        UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        playButton.frame = CGRectMake(40, 5, 29.0, 29.0);
+        [playButton setBackgroundImage:playButtonImage forState:UIControlStateNormal];
+        //[playButton addTarget:self action:@selector(playButtonPressed:withEvent:) forControlEvents:UIControlEventTouchUpInside];
+        
+        //aView.rightCalloutAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"playButton.png"]];
+        aView.rightCalloutAccessoryView = playButton;
         // could put a rightCalloutAccessoryView here
     }
     
+    
     aView.annotation = annotation;
-    [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];
+    
+    //[(UIImageView *)aView.leftCalloutAccessoryView setImage:[UIImage imageNamed:@"playButton.png"]];
+    
     
     return aView;
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
 {
-    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
-    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+    /*UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];*/
+    NSLog(@"didSelectAnnotationView");
 }
+
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
+    VoicesAnnotation *voicesAnnotation = (VoicesAnnotation *)view.annotation;
     NSLog(@"callout accessory tapped for annotation %@", [view.annotation title]);
-}*/
+    //NSLog(@"Audio data: %@", [VoicesAnnotation audioRecordingForVoice:voicesAnnotation.voice]);
+    if (!self.audioPlayer.playing)
+    {
+        NSLog(@"Prepping");
+        self.audioPlayer = nil;
+        self.audioPlayer = [[AVAudioPlayer alloc] initWithData:[VoicesAnnotation audioRecordingForVoice:voicesAnnotation.voice] error:nil];
+        [self.audioPlayer prepareToPlay];
+        [self.audioPlayer play];
+        
+        /*UIImage *pauseButtonImage = [UIImage imageNamed:@"pauseButton.png"];
+    
+        UIButton *pauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        pauseButton.frame = CGRectMake(40, 5, 29.0, 29.0);
+        [pauseButton setBackgroundImage:pauseButtonImage forState:UIControlStateNormal];
+
+        view.rightCalloutAccessoryView = pauseButton;*/
+    }
+    
+}
 
 
 #pragma mark - View Controller Lifecycle
@@ -533,7 +641,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    NSLog(@"viewDidLoad");
         
     [self prepareAudioRecorder];
     [self.locationManager startUpdatingLocation];
@@ -544,7 +652,7 @@
 {
     [super viewWillAppear:animated];
     
-    NSLog(@"viewDidLoad");
+    NSLog(@"viewWillAppear");
     //Create database if necessary; then set up fetch results controller
     if (!self.locationsDatabase){
         NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
@@ -553,7 +661,8 @@
         //NSLog(@"Context is %@", self.locationsDatabase.managedObjectContext);
     }
     
-    //[self updateLocations];
+    
+    [self updateLocations];
 
 }
 
