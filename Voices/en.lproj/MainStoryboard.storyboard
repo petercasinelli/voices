@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="7cF-t1-LL0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Zq9-b1-BQO">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
-        <!--Voices View Controller - Add Location-->
+        <!--Voices View Controller - Add Your Voice-->
         <scene sceneID="5">
             <objects>
                 <viewController id="2" customClass="VoicesViewController" sceneMemberID="viewController">
@@ -12,17 +12,13 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K47-KY-5d7">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YMb-zt-A66">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m70-1W-0G8">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41" id="3fZ-i7-D3S"/>
+                                    <constraint firstAttribute="width" constant="125" id="HW9-rx-hwJ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Add Location">
+                                <state key="normal" title="Add Your Voice!">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -30,7 +26,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="addLocation:" destination="2" eventType="touchUpInside" id="4Ai-ca-4kD"/>
+                                    <action selector="addVoiceFromDataSource:" destination="2" eventType="touchUpInside" id="y6n-i3-jlx"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Latitude" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRq-id-n9z">
@@ -55,37 +51,67 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCK-by-fnk">
+                                <rect key="contentStretch" x="0.14999999999999999" y="0.0" width="1" height="1"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="gP7-Gj-T8W"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qk2-ac-EWp">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dX8-mV-tUD">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="2" eventType="touchUpInside" id="gTC-aK-Koe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gu7-5f-XLo" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="51" id="4Ke-No-s84"/>
-                            <constraint firstItem="m70-1W-0G8" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="107" id="5Fd-q6-UEh"/>
-                            <constraint firstItem="K47-KY-5d7" firstAttribute="leading" secondItem="KCd-ph-EHP" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="PRM-Gg-Zh3"/>
-                            <constraint firstItem="K47-KY-5d7" firstAttribute="trailing" secondItem="YMb-zt-A66" secondAttribute="trailing" type="default" id="PWT-h9-79y"/>
-                            <constraint firstItem="YMb-zt-A66" firstAttribute="leading" secondItem="K47-KY-5d7" secondAttribute="leading" type="default" id="Qv2-X2-EYz"/>
+                            <constraint firstItem="MCK-by-fnk" firstAttribute="top" secondItem="KRq-id-n9z" secondAttribute="top" type="default" id="2tL-Oa-bYA"/>
+                            <constraint firstAttribute="bottom" secondItem="dX8-mV-tUD" secondAttribute="bottom" constant="165" id="2wv-4b-dT2"/>
+                            <constraint firstItem="dX8-mV-tUD" firstAttribute="baseline" secondItem="m70-1W-0G8" secondAttribute="baseline" type="default" id="8W1-yp-A8n"/>
+                            <constraint firstItem="MCK-by-fnk" firstAttribute="leading" secondItem="qk2-ac-EWp" secondAttribute="leading" type="default" id="Dvm-KT-tkh"/>
+                            <constraint firstItem="qk2-ac-EWp" firstAttribute="trailing" secondItem="MCK-by-fnk" secondAttribute="trailing" type="default" id="Gni-QF-dx9"/>
+                            <constraint firstItem="m70-1W-0G8" firstAttribute="leading" secondItem="dX8-mV-tUD" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Hju-Xv-1z4"/>
+                            <constraint firstItem="qk2-ac-EWp" firstAttribute="leading" secondItem="KCd-ph-EHP" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="MkE-vc-Igh"/>
+                            <constraint firstItem="MCK-by-fnk" firstAttribute="baseline" secondItem="KRq-id-n9z" secondAttribute="baseline" type="default" id="Q6V-EI-j3Z"/>
+                            <constraint firstItem="qk2-ac-EWp" firstAttribute="top" secondItem="KCd-ph-EHP" secondAttribute="top" type="default" id="VBI-YC-oOb"/>
                             <constraint firstItem="KCd-ph-EHP" firstAttribute="top" secondItem="3" secondAttribute="top" constant="130" id="ZmY-hs-oUS"/>
+                            <constraint firstItem="qk2-ac-EWp" firstAttribute="baseline" secondItem="KCd-ph-EHP" secondAttribute="baseline" type="default" id="djs-z6-CIs"/>
+                            <constraint firstItem="m70-1W-0G8" firstAttribute="trailing" secondItem="Kyg-hE-WA3" secondAttribute="trailing" type="default" id="hIZ-Vs-yUb"/>
+                            <constraint firstItem="MCK-by-fnk" firstAttribute="leading" secondItem="Kyg-hE-WA3" secondAttribute="leading" type="default" id="i1T-Lb-qAY"/>
                             <constraint firstItem="KRq-id-n9z" firstAttribute="leading" secondItem="KCd-ph-EHP" secondAttribute="leading" type="default" id="k8g-Ps-LPv"/>
                             <constraint firstItem="gu7-5f-XLo" firstAttribute="bottom" secondItem="Kyg-hE-WA3" secondAttribute="bottom" type="default" id="mLE-ra-nDe"/>
-                            <constraint firstItem="YMb-zt-A66" firstAttribute="baseline" secondItem="KRq-id-n9z" secondAttribute="baseline" type="default" id="mrA-92-rVt"/>
-                            <constraint firstItem="YMb-zt-A66" firstAttribute="trailing" secondItem="Kyg-hE-WA3" secondAttribute="trailing" type="default" id="nkh-1u-2dH"/>
+                            <constraint firstItem="KRq-id-n9z" firstAttribute="top" secondItem="3" secondAttribute="top" constant="75" id="nTg-fS-M9H"/>
                             <constraint firstItem="gu7-5f-XLo" firstAttribute="leading" secondItem="KRq-id-n9z" secondAttribute="leading" type="default" id="p4H-xe-KnG"/>
+                            <constraint firstItem="gu7-5f-XLo" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="51" id="pD3-yc-sGO"/>
                             <constraint firstItem="Kyg-hE-WA3" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="pGr-lE-xC3"/>
-                            <constraint firstItem="Kyg-hE-WA3" firstAttribute="leading" secondItem="YMb-zt-A66" secondAttribute="leading" type="default" id="rx6-kh-JJd"/>
-                            <constraint firstItem="m70-1W-0G8" firstAttribute="top" secondItem="3" secondAttribute="top" constant="210" id="sws-bB-Myp"/>
-                            <constraint firstItem="K47-KY-5d7" firstAttribute="top" secondItem="3" secondAttribute="top" constant="126" id="yNB-db-F5f"/>
-                            <constraint firstItem="YMb-zt-A66" firstAttribute="top" secondItem="3" secondAttribute="top" constant="72" id="yxZ-7t-M2H"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Location" id="WrO-1f-gTZ"/>
+                    <navigationItem key="navigationItem" title="Add Your Voice" id="WrO-1f-gTZ"/>
                     <connections>
-                        <outlet property="latitude" destination="YMb-zt-A66" id="zD0-Ig-vDZ"/>
-                        <outlet property="locationTitle" destination="Kyg-hE-WA3" id="Vr4-77-WSK"/>
-                        <outlet property="longitude" destination="K47-KY-5d7" id="kHm-cX-BI7"/>
+                        <outlet property="latitudeTextField" destination="MCK-by-fnk" id="CTw-he-WgR"/>
+                        <outlet property="longitudeTextField" destination="qk2-ac-EWp" id="tMg-Au-bMV"/>
+                        <outlet property="voiceTitle" destination="Kyg-hE-WA3" id="kMT-DD-RSG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="748" y="-460"/>
+            <point key="canvasLocation" x="1305" y="-375"/>
         </scene>
         <!--Locations Table View Controller - Your Locations-->
         <scene sceneID="aaQ-RE-g1Q">
@@ -127,7 +153,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cdq-co-Wey" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="743" y="205"/>
+            <point key="canvasLocation" x="1305" y="235"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="kXG-TQ-2tn">
@@ -162,7 +188,7 @@
                                     </barButtonItem>
                                     <barButtonItem title="Save" id="xb9-Oq-aIa">
                                         <connections>
-                                            <action selector="saveButtonPressed:" destination="72y-sS-Mug" id="QOz-sQ-k2T"/>
+                                            <segue destination="2" kind="push" identifier="Save Voice Button" id="tFu-GS-TIX"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -200,30 +226,69 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3bu-Ac-yfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="188" y="-49"/>
+            <point key="canvasLocation" x="714" y="-49"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="Mhl-zN-kho">
+        <scene sceneID="aaf-Lh-eyO">
             <objects>
-                <navigationController id="7cF-t1-LL0" sceneMemberID="viewController">
+                <navigationController id="Zq9-b1-BQO" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PgM-67-1N6">
+                    <navigationItem key="navigationItem" id="hvK-Pu-iIu"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="I93-LG-qnf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="72y-sS-Mug" kind="relationship" relationship="rootViewController" id="ilK-Y8-cFo"/>
+                        <segue destination="72y-sS-Mug" kind="relationship" relationship="rootViewController" id="lak-9W-4d0"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KX9-hX-caX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="imC-X1-Jgv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338" y="-49"/>
+            <point key="canvasLocation" x="188" y="-49"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CoreDataTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
+        </class>
+        <class className="LocationsTableViewController" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationsTableViewController.h"/>
+        </class>
+        <class className="MapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="playButtonPressed:"/>
+                <relationship kind="action" name="recordButtonPressed:"/>
+                <relationship kind="action" name="saveButtonPressed:"/>
+                <relationship kind="action" name="stopButtonPressed:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="playButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="recordButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="stopButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="VoicesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VoicesViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addVoiceFromDataSource:"/>
+                <relationship kind="action" name="cancelButtonPressed:"/>
+                <relationship kind="outlet" name="dataSource"/>
+                <relationship kind="outlet" name="latitudeTextField" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="longitudeTextField" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="voiceTitle" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="tFu-GS-TIX"/>
+    </inferredMetricsTieBreakers>
 </document>
