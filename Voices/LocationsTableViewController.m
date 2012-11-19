@@ -74,7 +74,7 @@
     //NSLog(@"Button pressed at %@", indexPath);
     
     Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
+    NSLog(@"Audio: %@",location.audioRecording);
     // Create file manager
    // NSFileManager *fileMgr = [NSFileManager defaultManager];
     
@@ -82,7 +82,7 @@
     /*NSString *documentsDirectory = [NSHomeDirectory()
                                     stringByAppendingPathComponent:@"Documents"];*/
     //Get URL from documents directory
-    NSURL *soundFileUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    //NSURL *soundFileUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
    
     //If I was using file system
     //Append recording file name
@@ -91,8 +91,8 @@
     //If I was using file system
     //soundFileUrl = [soundFileUrl URLByAppendingPathComponent:location.fileName];
     
-    soundFileUrl = [soundFileUrl URLByAppendingPathComponent:@"recording.caf"];
-    NSLog(@"File name: %@", soundFileUrl);
+    //soundFileUrl = [soundFileUrl URLByAppendingPathComponent:@"recording.caf"];
+    //NSLog(@"File name: %@", soundFileUrl);
     
     NSError *error1;
     self.audioPlayer = [[AVAudioPlayer alloc] initWithData:location.audioRecording error:&error1];
