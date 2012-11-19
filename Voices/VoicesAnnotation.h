@@ -12,6 +12,7 @@
 @interface VoicesAnnotation : NSObject <MKAnnotation>
 
 + (VoicesAnnotation *) annotationForVoice:(NSDictionary *)voice; //Voice dictionary
++ (NSData *)audioRecordingForVoice:(NSDictionary *)voice;
 
 @property (nonatomic, strong) NSDictionary *voice;
 

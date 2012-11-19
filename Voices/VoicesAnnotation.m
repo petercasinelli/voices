@@ -18,6 +18,10 @@
     annotation.voice = voice;
     return annotation;
 }
++ (NSData *)audioRecordingForVoice:(NSDictionary *)voice
+{
+    return [voice objectForKey:@"audioRecording"];
+}
 
 - (NSString *)title
 {
@@ -28,6 +32,11 @@
     
     NSString *subtitle = [[NSString alloc] initWithFormat:@"%@, %@", [self.voice objectForKey:@"latitude"], [self.voice objectForKey:@"longitude"]];
     return subtitle;
+}
+
+- (NSData *)audioRecording
+{
+    return [self.voice objectForKey:@"audioRecording"];
 }
 
 -(CLLocationCoordinate2D) coordinate
