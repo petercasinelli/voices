@@ -44,11 +44,18 @@
     Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = location.title;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ , %@",location.latitude, location.longitude];
-    
+    /*
     UIButton *playButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [playButton setTitle:@"Play" forState:UIControlStateNormal];
     [playButton setFrame:CGRectMake(0, 0, 60, 35)];
     playButton.userInteractionEnabled = YES;
+    */
+    
+    UIImage *playButtonImage = [UIImage imageNamed:@"playButton.png"];
+    
+    UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    playButton.frame = CGRectMake(40, 5, 29.0, 29.0);
+    [playButton setBackgroundImage:playButtonImage forState:UIControlStateNormal];
     [playButton addTarget:self action:@selector(playButtonPressed:withEvent:) forControlEvents:UIControlEventTouchUpInside];
     
     cell.accessoryView = playButton;
@@ -71,7 +78,7 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     
-    //NSLog(@"Button pressed at %@", indexPath);
+    NSLog(@"Button pressed at %@", indexPath);
     
     Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
     NSLog(@"Audio: %@",location.audioRecording);
@@ -102,10 +109,19 @@
     
     self.audioPlayer.delegate = self;
     
+    //If I want to implement replacing the play button with a stop button
+    //How do I implement switching back to play button after music plays? Delegate?
+    /*UIImage *stopButtonImage = [UIImage imageNamed:@"stopButton.png"];
+    
+    UIButton *stopButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    stopButton.frame = CGRectMake(40, 5, 29.0, 29.0);
+    [stopButton setBackgroundImage:stopButtonImage forState:UIControlStateNormal];*/
+    
     if (error1){
         NSLog(@"Player error: %@", [error1 localizedDescription]);
     } else {
         [self.audioPlayer play];
+        //[self.tableView cellForRowAtIndexPath:indexPath].accessoryView = stopButton;
         NSLog(@"Playing...");
         
     }
