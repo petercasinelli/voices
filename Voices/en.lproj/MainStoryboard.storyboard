@@ -166,11 +166,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sUz-bY-PWW"/>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jRa-0w-nHk">
                                 <items>
-                                    <barButtonItem title="Store" id="2Da-NF-QZk">
-                                        <connections>
-                                            <action selector="storeLocation:" destination="72y-sS-Mug" id="pSw-aI-GSl"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <barButtonItem width="29" style="plain" systemItem="fixedSpace" id="afL-xb-NEP"/>
                                     <barButtonItem title="Record" id="DU4-Sc-y7U">
                                         <connections>
                                             <action selector="recordButtonPressed:" destination="72y-sS-Mug" id="vSX-zL-on5"/>
@@ -206,12 +202,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="B6T-h4-Hfp">
-                        <barButtonItem key="leftBarButtonItem" title="Manual" id="Tin-t1-7v5">
-                            <connections>
-                                <segue destination="2" kind="push" identifier="Add Location Form" id="vbe-aK-vBq"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Show Voices" id="ZhW-WA-7FO">
+                        <barButtonItem key="rightBarButtonItem" title="My Voices" id="ZhW-WA-7FO">
                             <connections>
                                 <segue destination="BID-S4-3gp" kind="push" id="J24-Qc-3gD"/>
                             </connections>
@@ -274,6 +265,7 @@
         <class className="VoicesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VoicesViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addVoiceFromDataSource:"/>
                 <relationship kind="outlet" name="dataSource"/>
                 <relationship kind="outlet" name="latitudeTextField" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="longitudeTextField" candidateClass="UILabel"/>
@@ -286,7 +278,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="tFu-GS-TIX"/>
-    </inferredMetricsTieBreakers>
 </document>
