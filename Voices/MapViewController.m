@@ -282,7 +282,7 @@
         }];
     } else if (self.locationsDatabase.documentState == UIDocumentStateNormal) {
         // already open and ready to use
-        //[self updateLocations];
+        [self updateLocations];
     }
 }
 
