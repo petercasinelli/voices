@@ -296,7 +296,23 @@
 }
 
 #pragma mark - Segue
-
+-(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    //NSLog(@"Checking to see if file has been used");
+    if ([identifier isEqualToString:@"Save Voice Button"])
+    {
+    double fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[self.audioRecorder.url path] error:nil][NSFileSize] doubleValue];
+    //NSLog(@"File size is %g",fileSize);
+    if (!self.audioRecorder.recording && fileSize > 4096)
+        return YES;
+    else
+        return NO;
+    }
+    
+    //NSLog(@"Got to yes");
+    //Default return YES
+    return YES;
+}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
@@ -306,8 +322,9 @@
         NSLog(@"Seguing...");
         [segue.destinationViewController performSelector:@selector(setupFetchedResultsControllerinManagedObjectContext:) withObject:self.locationsDatabase.managedObjectContext];
     } else if ([segue.identifier isEqualToString:@"Save Voice Button"]) {
-        NSLog(@"Setting the data source...");
         
+        
+        NSLog(@"Setting the data source...");
         //Save temporary data in case last recording is added
        /* NSURL *soundFileUrl = self.audioRecorder.url;
         NSData* audioRecording = [NSData dataWithContentsOfURL:soundFileUrl];
