@@ -30,7 +30,11 @@
 
 - (NSString *)subtitle {
     
-    NSString *subtitle = [[NSString alloc] initWithFormat:@"%@, %@", [self.voice objectForKey:@"latitude"], [self.voice objectForKey:@"longitude"]];
+    NSString *latitude = [NSString stringWithFormat:@"%@",[self.voice objectForKey:@"latitude"]];
+    NSString *longitude = [NSString stringWithFormat:@"%@", [self.voice objectForKey:@"longitude"]];
+    
+    NSString *subtitle = [[NSString alloc] initWithFormat:@"%@, %@", [latitude substringToIndex:7],[longitude substringToIndex:8]];
+                          
     return subtitle;
 }
 
